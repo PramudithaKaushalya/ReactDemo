@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios'; 
+import swal from 'sweetalert';
 
 const loginStyle = {
     width: "90%",
     maxWidth: "500px",
-    margin: "100px auto",
+    margin: "30px auto",
     border: "5px solid #ddd",
     borderRadius: "5px",
     padding: "30px"
@@ -36,7 +37,7 @@ export default class Update extends Component {
             })
         }).catch( err => {
             console.log(err)
-            alert("User does not exist!!!");
+            swal("Oops!","User does not exist!!!","error");
         })   
     }    
     
@@ -51,7 +52,11 @@ export default class Update extends Component {
         .then(res => {
           console.log("res", res.data);
         })
-        alert("User updated!!!");
+        if(user.name === undefined || user.password === undefined || user.salary === undefined){
+            swal("Oops!","All fields are required!!!", "warning");
+        }else{
+            swal("OMG!","User updated!!!","success");
+        }
     }
 
     render() {

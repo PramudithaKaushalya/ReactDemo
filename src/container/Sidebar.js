@@ -21,18 +21,19 @@ class Sideba extends React.Component {
       <Sidebar
         sidebar={
         <React.Fragment>
-        <h5 color='blue'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crud Operations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+        <h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crud Operations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h5>
+        <br/><br/>
         <ul className="right">
-            <div><li><Link to='/signup'>Create</Link></li></div> 
-            <li><Link to='/'>Read</Link></li> 
-            <li><Link to='/update'>Update</Link></li>
-            <li><Link to='/delete'>Delete</Link></li>            
+            <li><button className="btn black lighten-1 z-depth-10"><Link to='/signup'>Create</Link></button></li> <br/>
+            <li><button className="btn black lighten-1 z-depth-10"><Link to='/'>Read</Link></button></li> <br/>
+            <li><button className="btn black lighten-1 z-depth-10"><Link to='/update'>Update</Link></button></li>  <br/>
+            <li><button className="btn black lighten-1 z-depth-10"><Link to='/delete'>Delete</Link></button></li>  <br/>          
         </ul> 
         </React.Fragment>
         }
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetSidebarOpen}
-        styles={{ sidebar: { background: "gray" } }}
+        styles={{ sidebar: { background: "gray", alignItems: "center"} }}
       >
         <button onClick={() => this.onSetSidebarOpen(true)}>
           Open 

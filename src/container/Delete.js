@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
+import swal from 'sweetalert'; 
 
 const loginStyle = {
     width: "90%",
@@ -16,6 +17,12 @@ export default class Delete extends Component {
         id: ''
     }
 
+    componentDidMount(){
+        this.setState({
+            id: ''
+        })
+    }
+
     handleChange = (e) => {
         this.setState({
           [e.target.id] : e.target.value
@@ -25,10 +32,10 @@ export default class Delete extends Component {
     click = (e) => {
         axios.get('http://localhost:5000/delete/'+this.state.id)
         .then(res => {
-            alert(res.data);  
+            swal("OMG!",res.data,"success");  
         }).catch( err => {
             console.log(err)
-            alert("User does not exist!!!");
+            swal("Oops!","User does not exist!!!","error");
         })
     }
 
@@ -36,20 +43,17 @@ export default class Delete extends Component {
         return (
             <div>
                 <div style={loginStyle} className="white">
-       
-                    <form onSubmit={this.click}>
-
+                        <form>
                         <h5>Delete User</h5>
                         <br/>
                         <label htmlFor="id"> ID </label>  
                         <div className="input-field">  
                             <input id="id" type="text" onChange={this.handleChange}/>       
                         </div>
-                                                
+                        </form>                        
                         <div className="input-field">
-                            <button className="btn blue lighten-1 z-depth-0">Delete</button>  
+                            <button onClick={this.click} className="btn blue lighten-1 z-depth-0">Delete</button>  
                         </div>
-                    </form>
                 </div>
         </div>
         )

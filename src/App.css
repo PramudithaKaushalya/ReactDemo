@@ -13,10 +13,10 @@ body {
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: url(/img/background1.jpg) no-repeat;
+    background: url(/img/background1.gif) no-repeat;
     background-size: 100%;
     min-height: 100%;
-  }
+}
 
 .App-form {
    background-color: #464b46;

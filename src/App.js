@@ -6,7 +6,9 @@ import Signin from './auth/Signin';
 import Dashboard from './container/Dashboard';
 import Delete from './container/Delete';
 import Update from './container/Update';
-import Sidebar from "./container/Sidebar";
+//import Sidebar from "./container/Sidebar";
+import Confetti from 'react-confetti';
+//import Spinner from 'react-spinner-material';
 // import BackgroundSlideshow from 'react-background-slideshow';
 // import image1 from './1.png';
 // import image2 from './2.jpg';
@@ -19,14 +21,14 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header/>
-          <Sidebar/>
           <Switch>
             <Route path='/signup' component={Signup} />
             <Route path='/signin' component={Signin} />
             <Route path='/delete' component={Delete} />
             <Route path='/update' component={Update} />
             <Route exact path='/' component={Dashboard} />
-          </Switch>      
+          </Switch>
+          <Confetti width="1510px" height="800px"/>      
         </div>
       </BrowserRouter>
     )
@@ -34,3 +36,5 @@ class App extends Component {
 }
 
 export default App;
+
+//<Sidebar/> <Spinner size={50} spinnerColor={"#FFF"} spinnerWidth={5} visible={true} />

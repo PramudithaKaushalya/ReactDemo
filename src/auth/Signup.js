@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 const loginStyle = {
     width: "90%",
@@ -17,7 +18,7 @@ class Signup extends Component {
             name: undefined,
             salary: undefined,
             password: undefined,
-            authError: undefined
+            message: undefined
     }
 
     handleChange = (e) => {
@@ -35,21 +36,26 @@ class Signup extends Component {
       }
 
       if(user.name === undefined || user.password === undefined || user.salary === undefined){
-        alert("All fields are required!!!");
+        this.setState({
+          message : "All fields are required!!!"
+        })
+        swal("Oops!","All fields are required!!!", "warning");
       }
       else{
       axios.post('http://localhost:5000/signup', user)
       .then(res => {
         console.log("res", res.data);
       })
-      alert("User created successfully!!!");
+      this.setState({
+        message : "User created successfully!!!"
+      })
+      swal("OMG!","User created successfully!!!","success");
       }
     }
 
     render() {
         return (
         <div style={loginStyle} className="white">
-       
         <form onSubmit={this.handleSubmit}>
 
         <h5>Add User</h5>
@@ -71,7 +77,8 @@ class Signup extends Component {
         <div className="input-field">
           <button className="btn blue lighten-1 z-depth-0">Sign Up</button>  
         </div>
-        </form></div>
+        </form>
+        </div>
         )
     }
 }

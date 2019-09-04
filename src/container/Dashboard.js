@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Table from 'react-bootstrap/Table'
+import Table from 'react-bootstrap/Table';
 
 const loginStyle = {
     width: "100%",
     maxWidth: "1300px",
-    margin: "100px auto",
+    margin: "30px auto",
     border: "5px solid #ddd",
     borderRadius: "3px",
-    padding: "30px"
+    padding: "10px"
 }
 
 export default class Dashboard extends Component {
@@ -30,11 +30,13 @@ export default class Dashboard extends Component {
     render() {
                     
         return (
-            <div style={loginStyle} className="section notf">
+            
+            <div style={loginStyle} className="white">
+            
             <div className="card z-depth-0">
                 <div className="card-content center">
                     
-                    <Table striped bordered hover>
+                    <Table striped bordered hover className='notification-list msgact notf2'>
                         <thead>
                         <tr>
                             <td><h6>Id</h6></td>
