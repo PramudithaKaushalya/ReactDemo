@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Header from './container/Header';
+import Signup from './auth/Signup';
+import Signin from './auth/Signin';
+import Dashboard from './container/Dashboard';
+import Delete from './container/Delete';
+import Update from './container/Update';
+import Sidebar from "./container/Sidebar";
+// import BackgroundSlideshow from 'react-background-slideshow';
+// import image1 from './1.png';
+// import image2 from './2.jpg';
+//import image3 from './3.jpg';
 
 class App extends Component {
-  render() {
+  
+    render(){
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <BrowserRouter>
+        <div className="App">
+          <Header/>
+          <Sidebar/>
+          <Switch>
+            <Route path='/signup' component={Signup} />
+            <Route path='/signin' component={Signin} />
+            <Route path='/delete' component={Delete} />
+            <Route path='/update' component={Update} />
+            <Route exact path='/' component={Dashboard} />
+          </Switch>      
+        </div>
+      </BrowserRouter>
+    )
   }
 }
 
