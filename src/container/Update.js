@@ -27,18 +27,22 @@ export default class Update extends Component {
     }
 
     click = (e) => {
-        axios.get('http://localhost:5000/search/'+this.state.id)
-        .then(res => {
-            this.setState({
-                data : res.data,
-                name : res.data.name,
-                salary : res.data.salary,
-                password : res.data.password
-            })
-        }).catch( err => {
-            console.log(err)
-            swal("Oops!","User does not exist!!!","error");
-        })   
+        if(this.state.id!==''){
+            axios.get('http://localhost:5000/search/'+this.state.id)
+            .then(res => {
+                this.setState({
+                    data : res.data,
+                    name : res.data.name,
+                    salary : res.data.salary,
+                    password : res.data.password
+                })
+            }).catch( err => {
+                console.log(err)
+                swal("Oops!","User does not exist!!!","error");
+            }) 
+        }else{
+            swal("Ohh!","Id Number is empty!!!","warning");
+        }      
     }    
     
     update = (e) => {

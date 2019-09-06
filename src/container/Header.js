@@ -1,28 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-//import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
-//import Side from "./Side";
-//import SmartSticky from 'react-smart-sticky';
+import React, { Component } from 'react';
+import { Calendar } from 'antd';
+import 'antd/dist/antd.css';
 
-const Header = (props) => {
-    return (
-        
-        <nav className="nav-wrapper grey darken-3">
-            <div>
-            <Link to='/' className="brand-logo"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; React &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Spring-Boot &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; MySQL</Link>
-            </div>
-            <ul className="right">
-            <li><Link to='/signup'>Create</Link></li> 
-            <li><Link to='/'>Read</Link></li> 
-            <li><Link to='/update'>Update</Link></li>
-            <li><Link to='/delete'>Delete</Link></li>            
-            <li><Link to='/#' className='btn btn-floating blue darken-3'>PK</Link></li>
-        </ul>
-        </nav>
-    )
+function onPanelChange(value, mode) {
+    console.log(value, mode);
 }
+  
 
-export default (Header);
-
-//<li><Link to='/signin'>Sign In</Link></li>
-//<SmartSticky tolerance={50}></SmartSticky> 
+export default class Header extends Component {
+    render() {
+        return (
+                <div style={{ width: 300, border: '1px solid #d9d9d9', borderRadius: 4, alignItems: 'center' }}>
+                    <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+                </div>
+        )
+    }
+}
