@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
+import ScrollPad from 'react-scrollpad';
 
 const loginStyle = {
     width: "100%",
@@ -33,9 +34,9 @@ export default class Dashboard extends Component {
             
             <div style={loginStyle} className="white">
             
-            <div className="card z-depth-0">
+            <div className="card z-depth-0"><ScrollPad>
                 <div className="card-content center">
-                    
+                
                     <Table striped bordered hover className='notification-list msgact notf2'>
                         <thead>
                         <tr>
@@ -59,6 +60,7 @@ export default class Dashboard extends Component {
                         </tbody>
                     </Table>
                 </div>
+                        </ScrollPad>
             </div>
         </div>
         )

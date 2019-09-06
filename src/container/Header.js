@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+//import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+//import Side from "./Side";
 //import SmartSticky from 'react-smart-sticky';
 
 const Header = (props) => {
@@ -23,5 +25,4 @@ const Header = (props) => {
 export default (Header);
 
 //<li><Link to='/signin'>Sign In</Link></li>
-/* <SmartSticky tolerance={50}></SmartSticky>
-</SmartSticky> */
+//<SmartSticky tolerance={50}></SmartSticky> 
