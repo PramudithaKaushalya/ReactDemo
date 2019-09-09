@@ -36,6 +36,7 @@ class Delete extends Component {
     }
 
     handleSubmit = (e) => {
+        e.preventDefault();
         if(this.state.id!==''){
             axios.get('http://localhost:5000/delete/'+this.state.id)
             .then(res => {
@@ -46,7 +47,7 @@ class Delete extends Component {
         }else{
             swal("Ohh!","Id Number is empty!!!","warning");
         }
-        //this.props.history.push('/');
+        this.props.history.push('/');
     }
 
     render() {

@@ -42,10 +42,11 @@ export default class Update extends Component {
             }) 
         }else{
             swal("Ohh!","Id Number is empty!!!","warning");
-        }      
+        }     
     }    
     
     update = (e) => {
+        e.preventDefault();
         const user = {
           name: this.state.name || undefined,
           salary: this.state.salary || undefined,
@@ -61,6 +62,7 @@ export default class Update extends Component {
         }else{
             swal("OMG!","User updated!!!","success");
         }
+        this.props.history.push('/');
     }
 
     render() {

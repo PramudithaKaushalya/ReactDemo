@@ -36,6 +36,7 @@ class Signup extends Component {
     }
 
     handleSubmit = (e) => {
+      e.preventDefault();
       const data = new FormData()   
       data.append('file', this.state.image) 
       const user = {
@@ -55,7 +56,7 @@ class Signup extends Component {
       }).catch(e => console.log("eeeeeeeeeeee",e))
       swal("OMG!","User created successfully!!!","success");
       }
-      
+      this.props.history.push('/');
     }
 
     render() {

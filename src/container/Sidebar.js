@@ -33,15 +33,16 @@ export default class SiderDemo extends React.Component {
         >
           <div className="logo" ></div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="2">
-              <Link to='/signup'/>
-              <Icon type="plus-circle" />
-              <span> Create </span>
-            </Menu.Item>
+            
             <Menu.Item key="1">
               <Link to='/'/>
               <Icon type="read" />
               <span>Read</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to='/signup'/>
+              <Icon type="plus-circle" />
+              <span> Create </span>
             </Menu.Item>
             <Menu.Item key="3">
               <Link to='/update'/>
