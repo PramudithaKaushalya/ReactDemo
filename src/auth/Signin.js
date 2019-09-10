@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 const loginStyle = {
     width: "90%",
@@ -26,21 +27,41 @@ class Signin extends Component {
     }
 
     handleSubmit = (e) => {
+      e.preventDefault();
       const user = {
         name: this.state.name || undefined,
         password: this.state.password || undefined
       }
-      
-      
+      if(user.name === undefined || user.password === undefined){
+        swal("Ohh!","All fields are required!!!", "warning");
+        window.location.reload();
+      }
+      else{
+      axios.post('http://localhost:5000/signin', user)
+      .then(res => {
+        if(res.data){
+          swal("OMG!","User logging successfully!!!","success");
+          this.props.history.push('/signin');
+        }else{
+          swal("Oops!","Invalid password!!!","error");
+        }
+        
+      }).catch(
+        swal("Oops!","User doesn't exist!!!","error"));
+        window.location.reload();
+      }
       console.log(user);
+      this.setState({ 
+        name: undefined,
+        password: undefined 
+      });
+      console.log(this.state.name);
     }
 
     render() {
         return (
         <div style={loginStyle} className="white">
        
-        <form onSubmit={this.handleSubmit}>
-
         <h5>Sign In</h5>
         
         <br/>
@@ -55,9 +76,8 @@ class Signin extends Component {
         </div> 
         
         <div className="input-field">
-          <button className="btn blue lighten-1 z-depth-0">Sign In</button>  
+          <button onClick={this.handleSubmit} className="btn blue lighten-1 z-depth-0">Sign In</button>  
         </div>
-        </form>
         <p>Haven't account? <Link to='/signup'>Sign Up</Link></p> 
       </div>
         )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Sidebar from './container/Sidebar';
+import Signin from './auth/Signin';
 //import Confetti from 'react-confetti';
 // import BackgroundSlideshow from 'react-background-slideshow';
 // import image1 from './1.png';
@@ -14,7 +15,8 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Sidebar/>
-                         
+           
+          <Route path='/signin' component={Signin} />              
         </div>
       </BrowserRouter>
     )

@@ -62,7 +62,7 @@ export default class Update extends Component {
         }else{
             swal("OMG!","User updated!!!","success");
         }
-        this.props.history.push('/');
+        this.props.history.push('/update');
     }
 
     render() {

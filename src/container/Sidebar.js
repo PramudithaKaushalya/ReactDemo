@@ -5,7 +5,6 @@ import 'antd/dist/antd.css';
 import './index.css';
 import { Layout, Menu, Breadcrumb, Icon, Avatar } from 'antd';
 import Signup from '../auth/Signup';
-import Signin from '../auth/Signin';
 import Dashboard from './Dashboard';
 import Delete from './Delete';
 import Update from './Update';
@@ -23,7 +22,7 @@ export default class SiderDemo extends React.Component {
     console.log(collapsed);
     this.setState({ collapsed });
   };
-
+  
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -92,7 +91,6 @@ export default class SiderDemo extends React.Component {
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Switch>
                 <Route path='/signup' component={Signup} />
-                <Route path='/signin' component={Signin} />
                 <Route path='/delete' component={Delete} />
                 <Route path='/update' component={Update} />
                 <Route exact path='/' component={Dashboard} />

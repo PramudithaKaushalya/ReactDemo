@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
@@ -56,7 +56,7 @@ class Signup extends Component {
       }).catch(e => console.log("eeeeeeeeeeee",e))
       swal("OMG!","User created successfully!!!","success");
       }
-      this.props.history.push('/');
+      this.props.history.push('/signup');
     }
 
     render() {
@@ -82,6 +82,7 @@ class Signup extends Component {
         <div className="input-field">
           <button className="btn blue lighten-1 z-depth-0">Sign Up</button>  
         </div>
+        <p>Already have account? <Link to='/signin'>Sign In</Link></p> 
         </form>
         </div>
         )
@@ -90,5 +91,5 @@ class Signup extends Component {
 
 export default Signup;
 
-//<p>Already have account? <Link to='/signin'>Sign In</Link></p>
+
       
