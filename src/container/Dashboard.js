@@ -82,7 +82,7 @@ export default class Dashboard extends Component {
                     placeholder="Filter Here By Name"
                     />
                 </div>
-                <Table striped bordered hover class="table table-bordered table-hover table-striped">
+                <Table striped bordered hover >
                     <thead>
                        <tr>
                             <td><h6>Id</h6></td>

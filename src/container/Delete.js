@@ -73,38 +73,3 @@ class Delete extends Component {
 }
 
 export default Delete
-
-
-
-
-// <Card
-//                     hoverable
-//                     style={{ width: 24 }}
-//                     cover={<img height="100px" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-//                 >
-                    
-//                 </Card> 
-
-/* 
-const { getFieldDecorator } = this.props.form;
-
-<Form className="login-form" onSubmit={this.handleSubmit}>
-<Form.Item>
-    {getFieldDecorator('Id', {
-    rules: [{ required: true, message: 'Please input Id number!' }],
-    })(
-    <Input
-    id="id"
-    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-    placeholder="Id Number"
-    onChange={this.handleChange}
-    />
-    )}
-</Form.Item>
-
-<Form.Item>
-<Button type="primary" htmlType="submit">
-    Delete
-</Button>
-</Form.Item>
-</Form> */

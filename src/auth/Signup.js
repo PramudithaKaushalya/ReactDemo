@@ -28,13 +28,6 @@ class Signup extends Component {
       console.log(this.state.image)
     }
 
-    imageChange = (e) => {
-      this.setState({
-        image: e.target.files[0]
-      })
-      console.log("aaaaaaaaaaaa",this.state.image);
-    }
-
     handleSubmit = (e) => {
       e.preventDefault();
       const data = new FormData()   

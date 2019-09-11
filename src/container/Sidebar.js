@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Layout, Menu, Breadcrumb, Icon, Avatar } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Dropdown, Button } from 'antd';
 import Signup from '../auth/Signup';
 import Dashboard from './Dashboard';
 import Delete from './Delete';
@@ -12,8 +12,25 @@ import Calendar from './Header';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+        Profile
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to='/signin'>
+        Log Out</Link>
+    </Menu.Item>
+  </Menu>
+);
 
 export default class SiderDemo extends React.Component {
+  
+  componentDidMount(){
+  }
+
   state = {
     collapsed: false,
   };
@@ -79,7 +96,12 @@ export default class SiderDemo extends React.Component {
             <h5 className="brand-logo center">React | Spring-Boot | MySQL</h5>
             </div>
             <ul className="right">
-            <li><Link to='/#'/> <Avatar style={{ backgroundColor: 'blue' }} icon="user" /></li>
+              <li>
+                <Link to='/signin'/>
+                <Dropdown overlay={menu} placement="bottomRight">
+                  <Button><Icon type="user" /></Button>
+                </Dropdown>&nbsp;&nbsp;&nbsp;&nbsp;
+              </li>
             </ul>
             </nav>
           </Header>
