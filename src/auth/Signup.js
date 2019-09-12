@@ -17,21 +17,17 @@ class Signup extends Component {
     state = {
             name: undefined,
             salary: undefined,
-            password: undefined,
-            image: null
+            password: undefined
     }
 
     handleChange = (e) => {
       this.setState({
         [e.target.id] : e.target.value
       })
-      console.log(this.state.image)
     }
 
     handleSubmit = (e) => {
       e.preventDefault();
-      const data = new FormData()   
-      data.append('file', this.state.image) 
       const user = {
         name: this.state.name || undefined,
         salary: this.state.salary || undefined,

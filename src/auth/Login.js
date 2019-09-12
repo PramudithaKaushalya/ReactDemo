@@ -32,9 +32,9 @@ class NormalLoginForm extends React.Component {
         .then(res => {
           console.log("res", res.data)
           if(res.data){
-            swal("OMG!","User logging successfully!!!","success");
-            this.setState({redirectToReferrer: true})
-
+            swal("Yeah!","User logging successfully!!!","success");
+            localStorage.setItem("user", user.name);
+            this.setState({redirectToReferrer: true});
           }else{
             swal("Oops!","Invalid password!!!","error");
           }
@@ -59,7 +59,7 @@ class NormalLoginForm extends React.Component {
     
     return (
       <div style={{ background: '#ECECEC', padding: '150px', height: '760px' }}>
-      <div style={{float: 'left', height: '300px'}}>
+      <div style={{float: 'left'}}>
         <img height= '500px' alt="example" src="https://vitamin-resource.com/wp-content/uploads/2012/05/computer-users.jpg" />
       </div>
       <div style={{float: 'right', paddingRight: '55px'}}>
@@ -98,7 +98,7 @@ class NormalLoginForm extends React.Component {
           <Button onClick={this.handleSubmit} type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <Link to='/signup'>Register Now!!!</Link>
+          Or <Link to='/register'>Register Now!!!</Link>
         </Form.Item>
       </Form>
       </Card>

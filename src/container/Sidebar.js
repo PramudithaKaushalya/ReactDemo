@@ -3,36 +3,25 @@ import React from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Layout, Menu, Breadcrumb, Icon, Dropdown, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Dropdown, Avatar } from 'antd';
 import Signup from '../auth/Signup';
+import Login from '../auth/Login';
 import Dashboard from './Dashboard';
 import Delete from './Delete';
 import Update from './Update';
 import Calendar from './Header';
+import Profile from './Profile';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-        Profile
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <Link to='/signin'>
-        Log Out</Link>
-    </Menu.Item>
-  </Menu>
-);
+
 
 export default class SiderDemo extends React.Component {
   
-  componentDidMount(){
-  }
-
   state = {
     collapsed: false,
+    redirectToReferrer: false,
+    color: '#00a2ae'
   };
 
   onCollapse = collapsed => {
@@ -40,7 +29,30 @@ export default class SiderDemo extends React.Component {
     this.setState({ collapsed });
   };
   
+  handleClick = () => {
+    this.setState({redirectToReferrer: true});
+    localStorage.removeItem("user");
+  }
+
   render() {
+    const {redirectToReferrer} = this.state;
+
+    const user = localStorage.getItem("user");
+    if (redirectToReferrer) {
+      return (<Login/>)
+    }
+    else{
+      const menu = (
+        <Menu>
+          <Menu.Item>
+            <Link to='/profile'/>
+              Profile
+          </Menu.Item>
+          <Menu.Item onClick={this.handleClick}>
+              Log Out
+          </Menu.Item>
+        </Menu>
+      );
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider 
@@ -97,9 +109,16 @@ export default class SiderDemo extends React.Component {
             </div>
             <ul className="right">
               <li>
-                <Link to='/signin'/>
+              <Avatar style={{ backgroundColor: this.state.color, verticalAlign: 'middle' }} size="large">
+                {user}
+              </Avatar>
+              </li>
+              <li>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              </li>
+              <li>
                 <Dropdown overlay={menu} placement="bottomRight">
-                  <Button><Icon type="user" /></Button>
+                  <Icon type="menu" />
                 </Dropdown>&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
             </ul>
@@ -113,6 +132,7 @@ export default class SiderDemo extends React.Component {
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Switch>
                 <Route path='/signup' component={Signup} />
+                <Route path='/profile' component={Profile} />
                 <Route path='/delete' component={Delete} />
                 <Route path='/update' component={Update} />
                 <Route exact path='/' component={Dashboard} />
@@ -123,7 +143,7 @@ export default class SiderDemo extends React.Component {
           <Footer style={{ textAlign: 'center' }}>React | Spring-Boot | MySQL ©2019 Created by Pramuditha</Footer>
         </Layout>
       </Layout>
-    );
+    );}
   }
 }
 

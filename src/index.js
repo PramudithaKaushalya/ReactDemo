@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-//import Signin from './auth/Login';
+//import Reg from './auth/Register';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
