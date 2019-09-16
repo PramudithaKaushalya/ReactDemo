@@ -11,6 +11,7 @@ import Delete from './Delete';
 import Update from './Update';
 import Calendar from './Header';
 import Profile from './Profile';
+import Favorite from './favorite';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -34,25 +35,28 @@ export default class SiderDemo extends React.Component {
     localStorage.removeItem("user");
   }
 
+  Profile = () => {
+
+  }
+
   render() {
     const {redirectToReferrer} = this.state;
-
+    const menu = (
+      <Menu>
+        <Menu.Item onClick={this.Profile}>
+          Profile
+        </Menu.Item>
+        <Menu.Item onClick={this.handleClick}>
+            Log Out
+        </Menu.Item>
+      </Menu>
+    );
     const user = localStorage.getItem("user");
     if (redirectToReferrer) {
       return (<Login/>)
     }
     else{
-      const menu = (
-        <Menu>
-          <Menu.Item>
-            <Link to='/profile'/>
-              Profile
-          </Menu.Item>
-          <Menu.Item onClick={this.handleClick}>
-              Log Out
-          </Menu.Item>
-        </Menu>
-      );
+     
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider 
@@ -60,10 +64,10 @@ export default class SiderDemo extends React.Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo" ></div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={[]} mode="inline">
             
             <Menu.Item key="1">
-              <Link to='/'/>
+              <Link to='/dashboard'/>
               <Icon type="read" />
               <span>Read</span>
             </Menu.Item>
@@ -92,11 +96,16 @@ export default class SiderDemo extends React.Component {
               }
             >
               <Menu.Item key="5">
+                <Link to='/favorite'/>
+                <Icon type="heart" />
+                <span>Favorite things</span>
+              </Menu.Item>
+              <Menu.Item key="6">
                 <Link to='/calendar'/>
                 <Icon type="calendar" />
                 <span>Calendar</span>
               </Menu.Item>
-              <Menu.Item key="6">Bill</Menu.Item>
+              <Menu.Item key="8">Bill</Menu.Item>
               <Menu.Item key="7">Alex</Menu.Item>
             </SubMenu>
           </Menu>
@@ -118,7 +127,7 @@ export default class SiderDemo extends React.Component {
               </li>
               <li>
                 <Dropdown overlay={menu} placement="bottomRight">
-                  <Icon type="menu" />
+                  <Icon type="menu" />  
                 </Dropdown>&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
             </ul>
@@ -129,13 +138,15 @@ export default class SiderDemo extends React.Component {
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            <div style={{ padding: 24, background: '#ECECEC', minHeight: 360 }}>
               <Switch>
                 <Route path='/signup' component={Signup} />
                 <Route path='/profile' component={Profile} />
                 <Route path='/delete' component={Delete} />
                 <Route path='/update' component={Update} />
+                <Route path='/favorite' component={Favorite} />
                 <Route exact path='/' component={Dashboard} />
+                <Route exact path='/dashboard' component={Dashboard} />
                 <Route exact path='/calendar' component={Calendar} />
               </Switch>
             </div>

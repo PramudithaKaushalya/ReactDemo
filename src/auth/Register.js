@@ -36,6 +36,7 @@ class RegistrationForm extends React.Component {
           
       }
     });
+    window.location.reload();
   };
 
   handleConfirmBlur = e => {
@@ -75,11 +76,11 @@ class RegistrationForm extends React.Component {
     };
 
     return (
-      <div style={{ background: '#ECECEC', padding: '50px', height: '760px' }}>
+      <div style={{    padding: '50px', height: '760px' }}>
           <div style={{float: 'left', height: '800px', paddingLeft: '80px'}}>
         <img height= '650px' alt="example" src="https://ds.ecisolutions.com/pixere.com/EciHorizon/completebusiness/live/images/office-furniture.jpg" />
       </div>
-      <div style={{float: 'right', paddingRight: '150px'}}>
+      <div style={{float: 'right', paddingRight: '130px'}}>
       <Card title="Register Here" bordered={false} style={{ width: 500, height: '650px'}}>
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item >

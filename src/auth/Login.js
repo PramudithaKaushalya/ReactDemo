@@ -62,7 +62,7 @@ class NormalLoginForm extends React.Component {
       <div style={{float: 'left'}}>
         <img height= '500px' alt="example" src="https://vitamin-resource.com/wp-content/uploads/2012/05/computer-users.jpg" />
       </div>
-      <div style={{float: 'right', paddingRight: '55px'}}>
+      <div style={{float: 'right', paddingRight: '40px'}}>
       <Card title="Login Here" bordered={false} style={{ width: 400, height: '500px'}}>
         
       <Form  className="login-form">
@@ -81,7 +81,7 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
-            <Input
+            <Input.Password
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Password"
