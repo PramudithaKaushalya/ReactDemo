@@ -12,3 +12,23 @@
     background: rgba(255, 255, 255, 0.2);
     margin: 16px;
   }
+  .scrollable-container-dash {
+    height: 350px;
+    overflow-y: scroll;
+  }
+  .scrollable-container-update {
+    height: 340px;
+    overflow-y: scroll;
+  }
+  .scrollable-container-fav {
+    height: 510px;
+    overflow-y: scroll;
+  }
+  .scrollable-container-readfav {
+    height: 330px;
+    overflow-y: scroll;
+  }
+  .background {
+    padding-top: 0px;
+    height: 300px;
+  }

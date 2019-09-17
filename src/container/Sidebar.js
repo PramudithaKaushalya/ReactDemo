@@ -12,6 +12,7 @@ import Update from './Update';
 import Calendar from './Header';
 import Profile from './Profile';
 import Favorite from './favorite';
+import ReadFav from './ReadFav';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -63,7 +64,9 @@ export default class SiderDemo extends React.Component {
           collapsible collapsed={this.state.collapsed} 
           onCollapse={this.onCollapse}
         >
-          <div className="logo" ></div>
+          <div className="logo" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img height= '35px' alt="example" src="https://rakiya.lk/files/recruiters/1805/logo.png" />
+          </div>
           <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={[]} mode="inline">
             
             <Menu.Item key="1">
@@ -72,16 +75,11 @@ export default class SiderDemo extends React.Component {
               <span>Read</span>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to='/signup'/>
-              <Icon type="plus-circle" />
-              <span> Create </span>
-            </Menu.Item>
-            <Menu.Item key="3">
               <Link to='/update'/>
               <Icon type="edit" />
               <span>Update</span>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="3">
               <Link to='/delete'/>
               <Icon type="delete" />
               <span>Delete</span>
@@ -95,18 +93,21 @@ export default class SiderDemo extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="5">
+              <Menu.Item key="4">
                 <Link to='/favorite'/>
                 <Icon type="heart" />
-                <span>Favorite things</span>
+                <span>Add Favorite</span>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Link to='/read'/>
+                <Icon type="hourglass" />
+                <span>View Favorites</span>
               </Menu.Item>
               <Menu.Item key="6">
                 <Link to='/calendar'/>
                 <Icon type="calendar" />
                 <span>Calendar</span>
               </Menu.Item>
-              <Menu.Item key="8">Bill</Menu.Item>
-              <Menu.Item key="7">Alex</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
@@ -138,13 +139,14 @@ export default class SiderDemo extends React.Component {
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ padding: 24, background: '#ECECEC', minHeight: 360 }}>
+            <div style={{ padding: 30, background: '#ECECEC', minHeight: 570 }}>
               <Switch>
                 <Route path='/signup' component={Signup} />
                 <Route path='/profile' component={Profile} />
                 <Route path='/delete' component={Delete} />
                 <Route path='/update' component={Update} />
                 <Route path='/favorite' component={Favorite} />
+                <Route path='/read' component={ReadFav} />
                 <Route exact path='/' component={Dashboard} />
                 <Route exact path='/dashboard' component={Dashboard} />
                 <Route exact path='/calendar' component={Calendar} />
@@ -158,4 +160,9 @@ export default class SiderDemo extends React.Component {
   }
 }
 
-          
+
+// <Menu.Item key="2">
+// <Link to='/signup'/>
+// <Icon type="plus-circle" />
+// <span> Create </span>
+// </Menu.Item>          

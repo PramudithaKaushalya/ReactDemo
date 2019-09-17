@@ -12,7 +12,8 @@ const loginStyle = {
     margin: "100px auto",
     border: "5px solid #ddd",
     borderRadius: "5px",
-    padding: "30px"
+    padding: "30px",
+    float: 'right'
 }
 
 //const { Meta } = Card;
@@ -38,22 +39,38 @@ class Delete extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.state.id!==''){
-            axios.get('http://localhost:5000/delete/'+this.state.id)
-            .then(res => {
-                swal("Omg!",res.data,"success"); 
-            }).catch( err => {
-                swal("Oops!","User does not exist!!!","error");
-            })
+            swal({
+                text: "Wanna delete that user?",
+                buttons: {
+                  confirm: "Delete",
+                  cancel: true,
+                }
+              })
+              .then(willSearch => {
+                if (willSearch) {
+                    axios.get('http://localhost:5000/delete/'+this.state.id)
+                    .then(res => {
+                    swal("Omg!",res.data,"success"); 
+                    }).catch( err => {
+                    swal("Oops!","User does not exist!!!","error");
+                })
+                }
+              })
+             
+              
         }else{
             swal("Ohh!","Id Number is empty!!!","warning");
         }
-        this.props.history.push('/dashboard'); 
+        //this.props.history.push('/dashboard'); 
     }
 
     render() {
         
         return (
             <div>
+                <div style={{float: 'left', height: '550px', paddingTop: '20px', paddingLeft: '20px'}}>
+                    <img height= '465px' alt="example" src="https://ec.europa.eu/jrc/sites/jrcsh/files/styles/normal-responsive/public/fotolia-92027264european-day-forest-green-forest.jpg?itok=MwdU0DK-" />
+                </div>
                <div style={loginStyle} className="white">
                         <form>
                         <h5>Delete User</h5>

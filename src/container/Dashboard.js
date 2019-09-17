@@ -10,12 +10,12 @@ const loginStyle = {
     margin: "30px auto",
     border: "5px solid #ddd",
     borderRadius: "3px",
-    padding: "10px"
+    padding: "0px"
 }
 
 export default class Dashboard extends Component {
     
-    componentDidMount(){
+    componentWillMount(){
         axios.get('http://localhost:5000/all')
         .then(res => {
             console.log("res", res.data);
@@ -87,14 +87,24 @@ export default class Dashboard extends Component {
                        <tr>
                             <td><h6>Id</h6></td>
                             <td><h6>Name</h6></td>
-                            <td><h6>Salary</h6></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td><h6>Email</h6></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td><h6>Contact</h6></td>
+                            <td><h6> Salary</h6></td>
                         </tr>
                     </thead>
+                </Table>
+                <div className="scrollable-container-dash">
+                <div className="background">
+                <Table striped bordered hover >
                     <tbody>
                         {us && value!==''? 
                         <tr>
                             <td> {filter.id} </td>
                             <td> {filter.name} </td>
+                            <td> {filter.email} </td>
+                            <td> {filter.contact} </td>
                             <td> {filter.salary} </td>
                         </tr>
                         :   data.map(item => (
@@ -102,6 +112,8 @@ export default class Dashboard extends Component {
                             <tr>
                                 <td> {item.id} </td>
                                 <td> {item.name} </td>
+                                <td> {item.email} </td>
+                                <td> {item.contact} </td>
                                 <td> {item.salary} </td>
                             </tr>
                         </React.Fragment>
@@ -109,6 +121,8 @@ export default class Dashboard extends Component {
                         }
                     </tbody>
                 </Table>
+                </div>
+                </div>
             </div>
         )
     }

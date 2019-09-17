@@ -24,6 +24,7 @@ class favorite extends React.Component {
       if (!err) {
         
         const favorite = {
+            user: {id: localStorage.getItem("id")},
             user_name: localStorage.getItem("user"),
             food: values.food || undefined,
             drink: values.drink || undefined,
@@ -79,11 +80,14 @@ class favorite extends React.Component {
     };
 
     return (
-      <div style={{ background: '#ECECEC', padding: '50px', height: '760px' }}>
-          <div style={{float: 'left', height: '800px', paddingLeft: '0px'}}>
-        <img height= '650px' alt="example" src="https://www.readersdigest.ca/wp-content/uploads/sites/14/2015/10/best-hiking-trails-canada-1200x1200.jpg" />
+      <div style={{ background: '#ECECEC', paddingLeft: '130px', paddingRight: '135px', height: '420px' }}>
+      
+      <div style={{float: 'left', height: '510px'}}>
+        <img height= '510px' alt="example" src="https://www.readersdigest.ca/wp-content/uploads/sites/14/2015/10/best-hiking-trails-canada-1200x1200.jpg" />
       </div>
-      <div style={{float: 'right', paddingRight: '0px'}}>
+      <div className="scrollable-container-fav">       
+      <div className="background">
+      <div style={{float: 'right'}}>
       <Card title="Your Favorite Things" bordered={false} style={{ width: 450, height: '650px'}}>
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item >
@@ -169,6 +173,8 @@ class favorite extends React.Component {
         </Form.Item>
       </Form>
       </Card>
+      </div>
+      </div>
       </div>
       </div>
     );

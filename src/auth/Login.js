@@ -31,9 +31,10 @@ class NormalLoginForm extends React.Component {
         axios.post('http://localhost:5000/signin', user)
         .then(res => {
           console.log("res", res.data)
-          if(res.data){
+          if(res.data !== 0){
             swal("Yeah!","User logging successfully!!!","success");
             localStorage.setItem("user", user.name);
+            localStorage.setItem("id", res.data);
             this.setState({redirectToReferrer: true});
           }else{
             swal("Oops!","Invalid password!!!","error");
@@ -59,10 +60,10 @@ class NormalLoginForm extends React.Component {
     
     return (
       <div style={{ background: '#ECECEC', padding: '150px', height: '760px' }}>
-      <div style={{float: 'left'}}>
+      <div style={{float: 'left', paddingLeft: '25px'}}>
         <img height= '500px' alt="example" src="https://vitamin-resource.com/wp-content/uploads/2012/05/computer-users.jpg" />
       </div>
-      <div style={{float: 'right', paddingRight: '40px'}}>
+      <div style={{float: 'right', paddingRight: '30px'}}>
       <Card title="Login Here" bordered={false} style={{ width: 400, height: '500px'}}>
         
       <Form  className="login-form">

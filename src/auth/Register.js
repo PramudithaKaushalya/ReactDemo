@@ -25,8 +25,10 @@ class RegistrationForm extends React.Component {
         console.log("Received values of form: ", values);
         const user = {
             name: values.name || undefined,
+            email: values.email || undefined,
             password: values.password || undefined,
-            salary: values.salary || undefined
+            salary: values.salary || undefined,
+            contact: values.contact || undefined
         }
         axios.post('http://localhost:5000/signup', user)
         .then(res => {
@@ -36,7 +38,7 @@ class RegistrationForm extends React.Component {
           
       }
     });
-    window.location.reload();
+    this.props.history.push('/');
   };
 
   handleConfirmBlur = e => {
@@ -76,7 +78,7 @@ class RegistrationForm extends React.Component {
     };
 
     return (
-      <div style={{    padding: '50px', height: '760px' }}>
+      <div style={{ background: '#ECECEC', padding: '50px', height: '760px' }}>
           <div style={{float: 'left', height: '800px', paddingLeft: '80px'}}>
         <img height= '650px' alt="example" src="https://ds.ecisolutions.com/pixere.com/EciHorizon/completebusiness/live/images/office-furniture.jpg" />
       </div>
@@ -162,7 +164,7 @@ class RegistrationForm extends React.Component {
           />)}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator("phone", {
+          {getFieldDecorator("contact", {
             rules: [
               { required: true, message: "Please input your phone number!" }
             ]
