@@ -68,8 +68,8 @@ class Delete extends Component {
         
         return (
             <div>
-                <div style={{float: 'left', height: '550px', paddingTop: '20px', paddingLeft: '20px'}}>
-                    <img height= '465px' alt="example" src="https://ec.europa.eu/jrc/sites/jrcsh/files/styles/normal-responsive/public/fotolia-92027264european-day-forest-green-forest.jpg?itok=MwdU0DK-" />
+                <div style={{float: 'left', height: '545px', paddingTop: '20px', paddingLeft: '20px'}}>
+                    <img height= '450px' alt="example" src="https://ec.europa.eu/jrc/sites/jrcsh/files/styles/normal-responsive/public/fotolia-92027264european-day-forest-green-forest.jpg?itok=MwdU0DK-" />
                 </div>
                <div style={loginStyle} className="white">
                         <form>

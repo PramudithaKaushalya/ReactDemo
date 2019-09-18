@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import 'antd/dist/antd.css';
+import { Button } from 'antd';
 
 const loginStyle = {
     width: "100%",
@@ -28,6 +29,16 @@ export default class Dashboard extends Component {
         data : []
     }
    
+    handleSubmit(user) {
+        // axios.get('http://localhost:5000/')
+        // .then(res => {
+        //     console.log("res", res.data);
+        //     this.setState({
+        //         data : res.data
+        //     })
+        // })
+        console.log(user) 
+    }
 
     render() {
         const { data } = this.state; 
@@ -60,6 +71,7 @@ export default class Dashboard extends Component {
                                 <td> {item.bird} </td>
                                 <td> {item.hobby} </td>
                                 <td> {item.place} </td>
+                                <td> <Button type="primary" onClick={this.handleSubmit(item.user_name)} shape="circle" icon="search" /> </td>
                             </tr>
                         </React.Fragment>
                             ))

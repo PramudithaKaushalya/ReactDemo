@@ -88,7 +88,7 @@ class favorite extends React.Component {
       <div className="scrollable-container-fav">       
       <div className="background">
       <div style={{float: 'right'}}>
-      <Card title="Your Favorite Things" bordered={false} style={{ width: 450, height: '650px'}}>
+      <Card title="Your Favorite Things" bordered={false} style={{ width: 450, height: '680px'}}>
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item >
           {getFieldDecorator("food", {

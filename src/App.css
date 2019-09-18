@@ -13,7 +13,7 @@ body {
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
+    cursor: pointer;
     background-size: 100%;
     min-height: 100%;
 }
@@ -27,6 +27,7 @@ body {
    justify-content: center;
    font-size: calc(10px + 2vmin);
    color: white;
+   cursor: pointer;
 }
 
 /*background: url(/img/background1.gif) no-repeat;*/

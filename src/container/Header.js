@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 const loginStyle = {
     width: "90%",
     maxWidth: "500px",
-    margin: "100px auto",
+    margin: "10px auto",
     border: "5px solid #ddd",
     borderRadius: "5px",
     padding: "30px"
