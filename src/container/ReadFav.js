@@ -58,11 +58,12 @@ export default class Dashboard extends Component {
                             <td><h6>Bird</h6></td>
                             <td><h6>Hobby</h6></td>
                             <td><h6>Place</h6></td>
+                            <td><h6>Details</h6></td>
                         </tr>
                     </thead>
                     <tbody>
                         {  data.map(item => (
-                        <React.Fragment key={item.id}>                        
+                        <React.Fragment key={item.favorite_id}>                        
                             <tr>
                                 <td> {item.user_name} </td>
                                 <td> {item.food} </td>

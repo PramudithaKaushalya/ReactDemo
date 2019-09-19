@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import 'antd/dist/antd.css';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Button } from 'antd';
 
 const loginStyle = {
     width: "100%",
@@ -30,9 +30,20 @@ export default class Dashboard extends Component {
         value : '',
         dataSource : [],
         data : [],
-        filter : []
+        filter : [],
+        favorites : []
     }
    
+    handleClick(user) {
+        axios.get('http://localhost:5000/'+user)
+        .then(res => {
+            console.log("res", res.data);
+            this.setState({
+                favorites : res.data
+            })
+        })
+    }
+
     onSelect = (value) => {
         const data = this.state.data;
         let len = data.length;
@@ -82,39 +93,38 @@ export default class Dashboard extends Component {
                     placeholder="Filter Here By Name"
                     />
                 </div>
+                <div className="scrollable-container-dash">
+                <div className="background">
                 <Table striped bordered hover >
                     <thead>
                        <tr>
                             <td><h6>Id</h6></td>
                             <td><h6>Name</h6></td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td><h6>Email</h6></td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td><h6>Contact</h6></td>
                             <td><h6> Salary</h6></td>
+                            <td><h6>Favorites</h6></td>
                         </tr>
                     </thead>
-                </Table>
-                <div className="scrollable-container-dash">
-                <div className="background">
-                <Table striped bordered hover >
                     <tbody>
                         {us && value!==''? 
                         <tr>
-                            <td> {filter.id} </td>
+                            <td> {filter.user_id} </td>
                             <td> {filter.name} </td>
                             <td> {filter.email} </td>
                             <td> {filter.contact} </td>
                             <td> {filter.salary} </td>
+                            <td> <Button type="primary" onClick={() => this.handleClick(filter.user_id)} shape="circle" icon="search" /> </td>
                         </tr>
                         :   data.map(item => (
-                        <React.Fragment key={item.id}>                        
+                        <React.Fragment key={item.user_id}>                        
                             <tr>
-                                <td> {item.id} </td>
+                                <td> {item.user_id} </td>
                                 <td> {item.name} </td>
                                 <td> {item.email} </td>
                                 <td> {item.contact} </td>
                                 <td> {item.salary} </td>
+                                <td> <Button type="primary" onClick={this.handleClick.bind(this,item.user_id)} shape="circle" icon="search" /> </td>
                             </tr>
                         </React.Fragment>
                             ))

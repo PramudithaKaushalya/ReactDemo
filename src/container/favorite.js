@@ -38,7 +38,7 @@ class favorite extends React.Component {
             console.log("res", res.data);
             swal("OMG!","User Favorite Submited!!!","success");
         }).catch(e => console.log("eeeeeeeeeeee",e));
-        this.props.history.push('/dashboard'); 
+        this.props.history.push('/read'); 
       }
     });
   };
