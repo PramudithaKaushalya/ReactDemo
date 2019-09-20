@@ -6,6 +6,7 @@ import { Button } from 'antd';
 
 const loginStyle = {
     width: "100%",
+    heigt: "550",
     maxWidth: "1300px",
     margin: "30px auto",
     border: "5px solid #ddd",
@@ -72,7 +73,7 @@ export default class Dashboard extends Component {
                                 <td> {item.bird} </td>
                                 <td> {item.hobby} </td>
                                 <td> {item.place} </td>
-                                <td> <Button type="primary" onClick={this.handleSubmit(item.user_name)} shape="circle" icon="search" /> </td>
+                                <td> <Button type="primary" onClick={this.handleSubmit.bind(this,item.user_name)} shape="circle" icon="search" /> </td>
                             </tr>
                         </React.Fragment>
                             ))

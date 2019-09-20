@@ -34,14 +34,15 @@ export default class Dashboard extends Component {
         favorites : []
     }
    
-    handleClick(user) {
-        axios.get('http://localhost:5000/'+user)
+    handleClick(id) {
+        axios.get('http://localhost:5000/favorite/'+id)
         .then(res => {
             console.log("res", res.data);
             this.setState({
                 favorites : res.data
             })
         })
+        console.log("state"+this.state.favorites);
     }
 
     onSelect = (value) => {
@@ -114,7 +115,7 @@ export default class Dashboard extends Component {
                             <td> {filter.email} </td>
                             <td> {filter.contact} </td>
                             <td> {filter.salary} </td>
-                            <td> <Button type="primary" onClick={() => this.handleClick(filter.user_id)} shape="circle" icon="search" /> </td>
+                            <td> <Button type="primary" onClick={this.handleClick.bind(this, filter.user_id)} shape="circle" icon="search" /> </td>
                         </tr>
                         :   data.map(item => (
                         <React.Fragment key={item.user_id}>                        
@@ -124,7 +125,7 @@ export default class Dashboard extends Component {
                                 <td> {item.email} </td>
                                 <td> {item.contact} </td>
                                 <td> {item.salary} </td>
-                                <td> <Button type="primary" onClick={this.handleClick.bind(this,item.user_id)} shape="circle" icon="search" /> </td>
+                                <td> <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" /> </td>
                             </tr>
                         </React.Fragment>
                             ))
