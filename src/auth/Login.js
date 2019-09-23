@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -112,4 +111,3 @@ class NormalLoginForm extends React.Component {
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
 export default WrappedNormalLoginForm
-          

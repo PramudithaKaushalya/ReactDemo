@@ -44,7 +44,7 @@ export default class Dashboard extends Component {
 
     render() {
         const { data } = this.state; 
-        const text = <h6>User Details</h6>;
+        const text = <h6>{this.state.details.name}'s Details</h6>;
         const content = (
         <div style={{maxWidth: "600px"}}>
            <Descriptions >

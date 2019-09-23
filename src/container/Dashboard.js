@@ -31,17 +31,19 @@ export default class Dashboard extends Component {
         dataSource : [],
         data : [],
         filter : [],
-        favorites : []
+        favorites : [],
+        user_name : undefined
     }
    
     handleClick(id) {
-        axios.get('http://localhost:5000/favorite/'+id)
+        axios.get('http://localhost:5000/favorites/'+id)
         .then(res => {
             console.log("res", res.data);
             this.setState({
-                favorites : res.data
+                favorites : res.data,
+                user_name : res.data[0].user_name
             })
-            console.log("state"+this.state.favorites);
+            console.log(this.state.user_name);
         })
     }
 
@@ -79,20 +81,25 @@ export default class Dashboard extends Component {
       };
 
     render() {
-        const { dataSource, value, data, user, filter } = this.state; 
+        const { dataSource, value, data, user, filter, favorites, user_name } = this.state; 
         let us = user; 
-        const text = <h6>User Favorites</h6>;
+        const text = <h6>{user_name}'s Favorites</h6>;
         const content = (
-        <div style={{maxWidth: "600px"}}>
-           <Descriptions >
-                <Descriptions.Item label="Food">{this.state.favorites.food}</Descriptions.Item>
-                <Descriptions.Item label="Drink">{this.state.favorites.drink}</Descriptions.Item>
-                <Descriptions.Item label="Animal">{this.state.favorites.animal}</Descriptions.Item>
-                <Descriptions.Item label="Bird"> {this.state.favorites.bird}</Descriptions.Item>
-                <Descriptions.Item label="Hobby">{this.state.favorites.hobby}</Descriptions.Item>
-                <Descriptions.Item label="Place"> {this.state.favorites.place} </Descriptions.Item>
-            </Descriptions>
-        </div>
+            favorites.map(item => (
+                <React.Fragment key={item.id}>                        
+                   <div style={{maxWidth: "600px"}}>
+                        <Descriptions >
+                            <Descriptions.Item label="Food">{item.food}</Descriptions.Item>
+                            <Descriptions.Item label="Drink">{item.drink}</Descriptions.Item>
+                            <Descriptions.Item label="Animal">{item.animal}</Descriptions.Item>
+                            <Descriptions.Item label="Bird"> {item.bird}</Descriptions.Item>
+                            <Descriptions.Item label="Hobby">{item.hobby}</Descriptions.Item>
+                            <Descriptions.Item label="Place"> {item.place} </Descriptions.Item>
+                        </Descriptions>
+                        <hr/>
+                    </div>
+                </React.Fragment>
+            ))
         );      
         const buttonWidth = 70;
 
@@ -141,25 +148,25 @@ export default class Dashboard extends Component {
                             </td>
                         </tr>
                         :   data.map(item => (
-                        <React.Fragment key={item.user_id}>                        
-                            <tr>
-                                <td> {item.user_id} </td>
-                                <td> {item.name} </td>
-                                <td> {item.email} </td>
-                                <td> {item.contact} </td>
-                                <td> {item.salary} </td>
-                                <td> 
-                                    <div className="demo">
-                                    <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                                        <Popover placement="bottomRight" title={text} content={content} trigger="click">
-                                        <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" />
-                                        </Popover>
-                                    </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                            ))
+                            <React.Fragment key={item.user_id}>                        
+                                <tr>
+                                    <td> {item.user_id} </td>
+                                    <td> {item.name} </td>
+                                    <td> {item.email} </td>
+                                    <td> {item.contact} </td>
+                                    <td> {item.salary} </td>
+                                    <td> 
+                                        <div className="demo">
+                                        <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                            <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                                            <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" />
+                                            </Popover>
+                                        </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </React.Fragment>
+                                ))
                         }
                     </tbody>
                 </Table>
@@ -170,3 +177,15 @@ export default class Dashboard extends Component {
     }
 }
 
+// const content = (
+//     <div style={{maxWidth: "600px"}}>
+//        <Descriptions >
+//             <Descriptions.Item label="Food">{this.state.favorites.food}</Descriptions.Item>
+//             <Descriptions.Item label="Drink">{this.state.favorites.drink}</Descriptions.Item>
+//             <Descriptions.Item label="Animal">{this.state.favorites.animal}</Descriptions.Item>
+//             <Descriptions.Item label="Bird"> {this.state.favorites.bird}</Descriptions.Item>
+//             <Descriptions.Item label="Hobby">{this.state.favorites.hobby}</Descriptions.Item>
+//             <Descriptions.Item label="Place"> {this.state.favorites.place} </Descriptions.Item>
+//         </Descriptions>
+//     </div>
+//     );      

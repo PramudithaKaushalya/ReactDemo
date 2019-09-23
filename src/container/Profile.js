@@ -1,21 +1,81 @@
-import React, { Component } from 'react'
+
+import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Descriptions } from 'antd';
+import { Drawer, Form, Button, Row, Input } from 'antd';
 
-export default class Profile extends Component {
-    render() {
-        return (
-            <div>
-                <Descriptions title="Profile" bordered>
-                    <Descriptions.Item label="Name" span={3}>Cloud Database</Descriptions.Item>
-                    <Descriptions.Item label="Billing Mode" span={3}>Prepaid</Descriptions.Item>
-                    <Descriptions.Item label="Usage Time" span={3}>2019-04-24 18:00:00</Descriptions.Item>
-                    <Descriptions.Item label="Status" span={3}>7845120</Descriptions.Item>
-                    <Descriptions.Item label="Negotiated Amount" span={2}>$80.00</Descriptions.Item>
-                </Descriptions>
-            </div>
-        )
-    }
+class DrawerForm extends React.Component {
+  state = { 
+      visible: false 
+    };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  render() {
+      
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <div>
+        <Drawer
+          title="Create a new account"
+          width={300}
+          onClose={this.onClose}
+          visible={this.state.visible}
+        >
+          <Form layout="vertical" hideRequiredMark>
+            <Row gutter={16}>
+                <Form.Item label="Current Password">
+                  {getFieldDecorator('password', {
+                    rules: [{ required: true, message: 'Please enter current password' }],
+                  })(<Input placeholder="Please enter current password" />)}
+                </Form.Item>
+              
+            </Row>
+            <Row gutter={16}>
+            <Form.Item label="New Password">
+                  {getFieldDecorator('new', {
+                    rules: [{ required: true, message: 'Please enter new password' }],
+                  })(<Input placeholder="Please enter new password" />)}
+                </Form.Item>
+            </Row>
+            <Row gutter={16}>
+            <Form.Item label="Confirm Password">
+                  {getFieldDecorator('confirm', {
+                    rules: [{ required: true, message: 'Please enter again new password' }],
+                  })(<Input placeholder="Please enter again new password" />)}
+                </Form.Item>
+            </Row>
+            
+          </Form>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              width: '100%',
+              borderTop: '1px solid #e9e9e9',
+              padding: '10px 16px',
+              background: '#fff',
+              textAlign: 'right',
+            }}
+          >
+            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+              Cancel
+            </Button>
+            <Button onClick={this.onClose} type="primary">
+              Submit
+            </Button>
+          </div>
+        </Drawer>
+      </div>
+    );
+  }
 }
 
+const App = Form.create()(DrawerForm);
+
+export default App;
