@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import 'antd/dist/antd.css';
-import { AutoComplete, Button } from 'antd';
+import { AutoComplete, Button, Descriptions, Popover } from 'antd';
 
 const loginStyle = {
     width: "100%",
@@ -41,8 +41,8 @@ export default class Dashboard extends Component {
             this.setState({
                 favorites : res.data
             })
+            console.log("state"+this.state.favorites);
         })
-        console.log("state"+this.state.favorites);
     }
 
     onSelect = (value) => {
@@ -80,7 +80,22 @@ export default class Dashboard extends Component {
 
     render() {
         const { dataSource, value, data, user, filter } = this.state; 
-        let us = user;            
+        let us = user; 
+        const text = <h6>User Favorites</h6>;
+        const content = (
+        <div style={{maxWidth: "600px"}}>
+           <Descriptions >
+                <Descriptions.Item label="Food">{this.state.favorites.food}</Descriptions.Item>
+                <Descriptions.Item label="Drink">{this.state.favorites.drink}</Descriptions.Item>
+                <Descriptions.Item label="Animal">{this.state.favorites.animal}</Descriptions.Item>
+                <Descriptions.Item label="Bird"> {this.state.favorites.bird}</Descriptions.Item>
+                <Descriptions.Item label="Hobby">{this.state.favorites.hobby}</Descriptions.Item>
+                <Descriptions.Item label="Place"> {this.state.favorites.place} </Descriptions.Item>
+            </Descriptions>
+        </div>
+        );      
+        const buttonWidth = 70;
+
         return (
             <div style={loginStyle} className="white card z-depth-0 card-content center">
                 <div>
@@ -115,7 +130,15 @@ export default class Dashboard extends Component {
                             <td> {filter.email} </td>
                             <td> {filter.contact} </td>
                             <td> {filter.salary} </td>
-                            <td> <Button type="primary" onClick={this.handleClick.bind(this, filter.user_id)} shape="circle" icon="search" /> </td>
+                            <td> 
+                                <div className="demo">
+                                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                    <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                                    <Button type="primary" onClick={this.handleClick.bind(this, filter.user_id)} shape="circle" icon="search" />
+                                    </Popover>
+                                </div>
+                                </div>
+                            </td>
                         </tr>
                         :   data.map(item => (
                         <React.Fragment key={item.user_id}>                        
@@ -125,7 +148,15 @@ export default class Dashboard extends Component {
                                 <td> {item.email} </td>
                                 <td> {item.contact} </td>
                                 <td> {item.salary} </td>
-                                <td> <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" /> </td>
+                                <td> 
+                                    <div className="demo">
+                                    <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                        <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                                        <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" />
+                                        </Popover>
+                                    </div>
+                                    </div>
+                                </td>
                             </tr>
                         </React.Fragment>
                             ))

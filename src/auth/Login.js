@@ -98,7 +98,7 @@ class NormalLoginForm extends React.Component {
           <Link className="login-form-forgot" to='/signup'>Forgot Password</Link>
           <Button onClick={this.handleSubmit} type="primary" htmlType="submit" className="login-form-button">
             Log in
-          </Button>
+          </Button><br/>
           Or <Link to='/register'>Register Now!!!</Link>
         </Form.Item>
       </Form>

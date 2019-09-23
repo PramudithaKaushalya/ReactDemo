@@ -24,7 +24,7 @@ class favorite extends React.Component {
       if (!err) {
         
         const favorite = {
-            user: {id: localStorage.getItem("id")},
+            user_id: localStorage.getItem("id"),
             user_name: localStorage.getItem("user"),
             food: values.food || undefined,
             drink: values.drink || undefined,

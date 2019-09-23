@@ -32,3 +32,15 @@
     padding-top: 0px;
     height: 300px;
   }
+  .code-box-demo .demo {
+    overflow: auto;
+  }
+  .code-box-demo .ant-btn {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  .ant-btn {
+    width: 70px;
+    text-align: center;
+    padding: 0;
+  }

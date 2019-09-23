@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import 'antd/dist/antd.css';
-import { Button } from 'antd';
+import { Button, Descriptions, Popover } from 'antd';
 
 const loginStyle = {
     width: "100%",
@@ -27,22 +27,36 @@ export default class Dashboard extends Component {
     } 
 
     state = {
-        data : []
+        data : [],
+        details : []
     }
    
-    handleSubmit(user) {
-        // axios.get('http://localhost:5000/')
-        // .then(res => {
-        //     console.log("res", res.data);
-        //     this.setState({
-        //         data : res.data
-        //     })
-        // })
-        console.log(user) 
+    handleSubmit(id) {
+        axios.get('http://localhost:5000/detail/'+id)
+        .then(res => {
+            console.log("res", res.data);
+            this.setState({
+                details : res.data
+            })
+            console.log("state"+this.state.details);
+        })
     }
 
     render() {
         const { data } = this.state; 
+        const text = <h6>User Details</h6>;
+        const content = (
+        <div style={{maxWidth: "600px"}}>
+           <Descriptions >
+                <Descriptions.Item label="Id">{this.state.details.user_id}</Descriptions.Item>
+                <Descriptions.Item label="Name">{this.state.details.name}</Descriptions.Item>
+                <Descriptions.Item label="Salary"> {this.state.details.salary}</Descriptions.Item>
+                <Descriptions.Item label="Contact">{this.state.details.contact}</Descriptions.Item>
+                <Descriptions.Item label="Email">{this.state.details.email}</Descriptions.Item>
+            </Descriptions>
+        </div>
+        );      
+        const buttonWidth = 70;
 
         return (
             <div style={loginStyle} className="white card z-depth-0 card-content center">
@@ -64,7 +78,7 @@ export default class Dashboard extends Component {
                     </thead>
                     <tbody>
                         {  data.map(item => (
-                        <React.Fragment key={item.favorite_id}>                        
+                        <React.Fragment key={item.id}>                        
                             <tr>
                                 <td> {item.user_name} </td>
                                 <td> {item.food} </td>
@@ -73,7 +87,15 @@ export default class Dashboard extends Component {
                                 <td> {item.bird} </td>
                                 <td> {item.hobby} </td>
                                 <td> {item.place} </td>
-                                <td> <Button type="primary" onClick={this.handleSubmit.bind(this,item.user_name)} shape="circle" icon="search" /> </td>
+                                <td> 
+                                    <div className="demo">
+                                    <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                        <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                                        <Button type="primary" onClick={this.handleSubmit.bind(this,item.id)} shape="circle" icon="search" /> 
+                                        </Popover>
+                                    </div>
+                                    </div>
+                                </td>
                             </tr>
                         </React.Fragment>
                             ))
