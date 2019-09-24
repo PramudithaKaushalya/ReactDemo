@@ -10,7 +10,7 @@ import Sidebar from '../container/Sidebar';
 class NormalLoginForm extends React.Component {
   
   state = {
-    redirectToReferrer: false
+    redirectToReferrer: true
   }
 
   handleSubmit = e => {
@@ -57,6 +57,30 @@ class NormalLoginForm extends React.Component {
       
     const { getFieldDecorator } = this.props.form;
     
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 },
+      },
+    };
+
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 16,
+          offset: 0,
+        },
+        sm: {
+          span: 24,
+          offset: 0,
+        },
+      },
+    };
+
     return (
       <div style={{ background: '#ECECEC', padding: '150px', height: '760px' }}>
       <div style={{float: 'left', paddingLeft: '25px'}}>
@@ -65,7 +89,7 @@ class NormalLoginForm extends React.Component {
       <div style={{float: 'right', paddingRight: '30px'}}>
       <Card title="Login Here" bordered={false} style={{ width: 400, height: '500px'}}>
         
-      <Form  className="login-form">
+      <Form  {...formItemLayout} className="login-form">
         <br/>
         <Form.Item>
           {getFieldDecorator('username', {
@@ -89,10 +113,10 @@ class NormalLoginForm extends React.Component {
           )}
         </Form.Item>
         <br/>
-        <Form.Item>
-          {getFieldDecorator('remember', {
+        <Form.Item {...tailFormItemLayout}>
+        {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: false,
           })(<Checkbox>Remember me</Checkbox>)}
           <Link className="login-form-forgot" to='/signup'>Forgot Password</Link>
           <Button onClick={this.handleSubmit} type="primary" htmlType="submit" className="login-form-button">

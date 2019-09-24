@@ -2,80 +2,55 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Drawer, Form, Button, Row, Input } from 'antd';
+import { Table } from 'antd';
 
-class DrawerForm extends React.Component {
-  state = { 
-      visible: false 
-    };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
+export default class Profile extends React.Component {
+  
   render() {
-      
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <div>
-        <Drawer
-          title="Create a new account"
-          width={300}
-          onClose={this.onClose}
-          visible={this.state.visible}
-        >
-          <Form layout="vertical" hideRequiredMark>
-            <Row gutter={16}>
-                <Form.Item label="Current Password">
-                  {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please enter current password' }],
-                  })(<Input placeholder="Please enter current password" />)}
-                </Form.Item>
-              
-            </Row>
-            <Row gutter={16}>
-            <Form.Item label="New Password">
-                  {getFieldDecorator('new', {
-                    rules: [{ required: true, message: 'Please enter new password' }],
-                  })(<Input placeholder="Please enter new password" />)}
-                </Form.Item>
-            </Row>
-            <Row gutter={16}>
-            <Form.Item label="Confirm Password">
-                  {getFieldDecorator('confirm', {
-                    rules: [{ required: true, message: 'Please enter again new password' }],
-                  })(<Input placeholder="Please enter again new password" />)}
-                </Form.Item>
-            </Row>
-            
-          </Form>
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: 0,
-              width: '100%',
-              borderTop: '1px solid #e9e9e9',
-              padding: '10px 16px',
-              background: '#fff',
-              textAlign: 'right',
-            }}
-          >
-            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
-              Cancel
-            </Button>
-            <Button onClick={this.onClose} type="primary">
-              Submit
-            </Button>
-          </div>
-        </Drawer>
-      </div>
-    );
+
+    const columns = [
+      {
+        title: 'User',
+        dataIndex: 'user_name',
+        width: 150,
+      },
+      {
+        title: 'Food',
+        dataIndex: 'food',
+        width: 150,
+      },
+      {
+        title: 'Drink',
+        dataIndex: 'drink',
+      },
+      {
+        title: 'Animal',
+        dataIndex: 'animal',
+        width: 150,
+      },
+      {
+        title: 'Bird',
+        dataIndex: 'bird',
+        width: 150,
+      },
+      {
+        title: 'Hobby',
+        dataIndex: 'hobby',
+      },
+      {
+        title: 'Place',
+        dataIndex: 'place',
+      },
+    ];
+
+    const data = [{"id":23,"user_id":1,"user_name":"Pramuditha","food":"Choco","drink":"Ice Coffee","animal":"Elephant","bird":"Peacock","hobby":"Hiking","place":"Kandy"},{"id":24,"user_id":3,"user_name":"Achini","food":"Cakes","drink":"Faluda","animal":"Dog","bird":"Humming bird","hobby":"Traveling","place":"Badulla"},{"id":25,"user_id":4,"user_name":"Kapila","food":"Rice","drink":"Tea","animal":"Camel","bird":"Penguin","hobby":"Bloging","place":"Ampara"},{"id":26,"user_id":2,"user_name":"Himsara","food":"Burger","drink":"Black Coffee","animal":"Bull","bird":"Bat","hobby":"Badminton","place":"Mountlavinia"},{"id":27,"user_id":6,"user_name":"Monali","food":"Popcorn","drink":"Green Tea","animal":"Dog","bird":"Bat","hobby":"Gaming","place":"Namunukula"},{"id":28,"user_id":5,"user_name":"Madara","food":"Pizza","drink":"Nutela ","animal":"Panda","bird":"Cock","hobby":"Reading","place":"Sembuwatta"},{"id":30,"user_id":1,"user_name":"Pramuditha","food":"Potato chips","drink":"Beer","animal":"Donkey","bird":"Cock","hobby":"Camping","place":"Chariot Path"}];
+    
+
+    return(
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+    )
   }
 }
 
-const App = Form.create()(DrawerForm);
-
-export default App;
+  
+          

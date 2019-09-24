@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import 'antd/dist/antd.css';
-import { AutoComplete, Button, Descriptions, Popover } from 'antd';
+import { AutoComplete, Button, Descriptions, Popover, Drawer, Form, Row, Input, Icon } from 'antd';
+import swal from 'sweetalert';
 
 const loginStyle = {
     width: "100%",
@@ -13,7 +14,7 @@ const loginStyle = {
     padding: "0px"
 }
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
     
     componentWillMount(){
         axios.get('http://localhost:5000/all')
@@ -32,9 +33,42 @@ export default class Dashboard extends Component {
         data : [],
         filter : [],
         favorites : [],
-        user_name : undefined
+        user_name : undefined,
+        visible : false,
+
+        id : undefined,
+        name: undefined,
+        salary: undefined,
+        contact: undefined,
+        email: undefined
     }
    
+    showDrawer = (id) => {
+        this.setState({
+          visible: true,
+          id : id
+        });
+        axios.get('http://localhost:5000/search/'+id)
+        .then(res => {
+            this.setState({
+                name : res.data.name,
+                email: res.data.email,
+                contact: res.data.contact,
+                salary : res.data.salary
+            })
+            console.log("aaaaaaaa",res.data)
+        }).catch( err => {
+            console.log(err)
+            swal("Oops!","Something Went Wrong!!!","error");
+        }) 
+      };
+    
+    onClose = () => {
+        this.setState({
+          visible: false
+        });
+    };
+
     handleClick(id) {
         axios.get('http://localhost:5000/favorites/'+id)
         .then(res => {
@@ -44,6 +78,61 @@ export default class Dashboard extends Component {
                 user_name : res.data[0].user_name
             })
             console.log(this.state.user_name);
+        })
+    }
+
+    handleUpdate = (e) => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                const user = {
+                    name: values.name || undefined,
+                    email: values.email || undefined,
+                    contact: values.contact || undefined,
+                    salary: values.salary || undefined
+                }
+
+                if(user.name === this.state.name && user.password === this.state.password && user.salary === this.state.salary && user.email === this.state.email && user.contact === this.state.contact){
+                    
+                    swal("Ohhh!","Didn't change any field!!!", "warning");
+                
+                }else{
+
+                    axios.put('http://localhost:5000/update/'+this.state.id, user)
+                    .then(res => {
+                        console.log("res", res.data);
+                        swal("Yeah!","User is updated!!!","success");
+                        this.onClose();
+                        this.props.history.push('/dashboard');
+                    }).catch(e=>{
+                        console.log("error", e);
+                        swal("Oops!","User not updated!!!","error");
+                    })
+                }
+                console.log("state", user);
+            }
+        });
+    }
+
+    handleDelete(id,e) {
+        e.preventDefault();
+        
+        swal({
+            text: "Wanna delete that user?",
+            buttons: {
+                confirm: "Delete",
+                cancel: true,
+            }
+        })
+        .then(willSearch => {
+            if (willSearch) {
+                axios.get('http://localhost:5000/delete/'+id)
+                .then(res => {
+                    swal("Yeah!",res.data,"success"); 
+                }).catch( err => {
+                    swal("Oops!","User does not exist!!!","error");
+                })
+            }
         })
     }
 
@@ -81,8 +170,10 @@ export default class Dashboard extends Component {
       };
 
     render() {
-        const { dataSource, value, data, user, filter, favorites, user_name } = this.state; 
+        const { dataSource, value, data, user, filter, favorites, user_name, visible} = this.state; 
         let us = user; 
+        const { getFieldDecorator } = this.props.form;
+       
         const text = <h6>{user_name}'s Favorites</h6>;
         const content = (
             favorites.map(item => (
@@ -101,7 +192,6 @@ export default class Dashboard extends Component {
                 </React.Fragment>
             ))
         );      
-        const buttonWidth = 70;
 
         return (
             <div style={loginStyle} className="white card z-depth-0 card-content center">
@@ -121,17 +211,19 @@ export default class Dashboard extends Component {
                 <Table striped bordered hover >
                     <thead>
                        <tr>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td><h6>Id</h6></td>
                             <td><h6>Name</h6></td>
                             <td><h6>Email</h6></td>
                             <td><h6>Contact</h6></td>
                             <td><h6> Salary</h6></td>
-                            <td><h6>Favorites</h6></td>
+                            <td><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h6></td>
                         </tr>
                     </thead>
                     <tbody>
                         {us && value!==''? 
                         <tr>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td> {filter.user_id} </td>
                             <td> {filter.name} </td>
                             <td> {filter.email} </td>
@@ -139,10 +231,14 @@ export default class Dashboard extends Component {
                             <td> {filter.salary} </td>
                             <td> 
                                 <div className="demo">
-                                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                <div style={{ clear: 'both', whiteSpace: 'nowrap' }}>
                                     <Popover placement="bottomRight" title={text} content={content} trigger="click">
                                     <Button type="primary" onClick={this.handleClick.bind(this, filter.user_id)} shape="circle" icon="search" />
                                     </Popover>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Button type="primary" onClick={this.showDrawer.bind(this, filter.user_id)} shape="circle" icon="edit" />
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Button type="danger" onClick={this.handleDelete.bind(this, filter.user_id)} shape="circle" icon="delete" />
                                 </div>
                                 </div>
                             </td>
@@ -150,6 +246,7 @@ export default class Dashboard extends Component {
                         :   data.map(item => (
                             <React.Fragment key={item.user_id}>                        
                                 <tr>
+                                    <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                                     <td> {item.user_id} </td>
                                     <td> {item.name} </td>
                                     <td> {item.email} </td>
@@ -157,10 +254,14 @@ export default class Dashboard extends Component {
                                     <td> {item.salary} </td>
                                     <td> 
                                         <div className="demo">
-                                        <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                        <div style={{ clear: 'both', whiteSpace: 'nowrap' }}>
                                             <Popover placement="bottomRight" title={text} content={content} trigger="click">
                                             <Button type="primary" onClick={this.handleClick.bind(this, item.user_id)} shape="circle" icon="search" />
                                             </Popover>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <Button type="primary" onClick={this.showDrawer.bind(this, item.user_id)} shape="circle" icon="edit" />
+                                            &nbsp;&nbsp;&nbsp;
+                                            <Button type="danger" onClick={this.handleDelete.bind(this, item.user_id)} shape="circle" icon="delete" />
                                         </div>
                                         </div>
                                     </td>
@@ -171,21 +272,106 @@ export default class Dashboard extends Component {
                     </tbody>
                 </Table>
                 </div>
+                <div>
+          <Drawer
+          title="User Update"
+          width={400}
+          onClose={this.onClose}
+          visible={visible}
+          >
+          <Form layout="vertical" hideRequiredMark>
+            
+            <Row gutter={16}>
+            <Form.Item >
+                {getFieldDecorator("name", {
+                    rules: [
+                    {
+                        required: true,
+                        message: "Please input your nickname!",
+                        whitespace: true
+                    }
+                    ]
+                })(<Input
+                prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                placeholder="User Name"
+                />)
+                }
+            </Form.Item>
+            </Row>
+            <Row gutter={16}>
+            <Form.Item>
+                {getFieldDecorator("email", {
+                    rules: [
+                    {
+                        type: "email",
+                        message: "The input is not valid E-mail!"
+                    },
+                    {
+                        required: true,
+                        message: "Please input your E-mail!"
+                    }
+                    ]
+                })(<Input 
+                    prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    placeholder="Email"
+                    />)}
+            </Form.Item>
+            </Row>
+            <Row gutter={16}>
+            <Form.Item>
+                {getFieldDecorator("salary", {
+                    rules: [
+                    {
+                        required: true,
+                        message: "Please input your Salary Amount!"
+                    }
+                    ]
+                })(<Input 
+                    prefix={<Icon type="dollar" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    placeholder="Salary"
+                />)}
+            </Form.Item>
+            </Row>
+            <Row gutter={16}>
+            <Form.Item>
+                {getFieldDecorator("contact", {
+                    rules: [
+                    { required: true, message: "Please input your phone number!" }
+                    ]
+                })(<Input
+                    prefix={<Icon type="phone" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    placeholder="Contact Number" 
+                    />)}
+            </Form.Item>
+            </Row>
+          </Form>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              width: '100%',
+              borderTop: '1px solid #e9e9e9',
+              padding: '10px 16px',
+              background: '#fff',
+              textAlign: 'right',
+            }}
+          >
+            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+              Cancel
+            </Button>
+            <Button onClick={this.handleUpdate} type="primary">
+              Update
+            </Button>
+          </div>
+        </Drawer>
+        </div>
                 </div>
             </div>
         )
     }
-}
+}    
 
-// const content = (
-//     <div style={{maxWidth: "600px"}}>
-//        <Descriptions >
-//             <Descriptions.Item label="Food">{this.state.favorites.food}</Descriptions.Item>
-//             <Descriptions.Item label="Drink">{this.state.favorites.drink}</Descriptions.Item>
-//             <Descriptions.Item label="Animal">{this.state.favorites.animal}</Descriptions.Item>
-//             <Descriptions.Item label="Bird"> {this.state.favorites.bird}</Descriptions.Item>
-//             <Descriptions.Item label="Hobby">{this.state.favorites.hobby}</Descriptions.Item>
-//             <Descriptions.Item label="Place"> {this.state.favorites.place} </Descriptions.Item>
-//         </Descriptions>
-//     </div>
-//     );      
+const Dash = Form.create({name: "dashboard"})(Dashboard);
+
+export default Dash;

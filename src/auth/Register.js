@@ -1,7 +1,6 @@
 import React from "react";
 import axios from 'axios';
 import swal from 'sweetalert';
-//import { Link } from 'react-router-dom';
 import "antd/dist/antd.css";
 import "./index.css";
 import {
@@ -34,11 +33,11 @@ class RegistrationForm extends React.Component {
         .then(res => {
             console.log("res", res.data);
             swal("OMG!","User created successfully!!!","success");
+            this.props.history.push('/');
         }).catch(e => console.log("eeeeeeeeeeee",e));
           
       }
     });
-    this.props.history.push('/');
   };
 
   handleConfirmBlur = e => {

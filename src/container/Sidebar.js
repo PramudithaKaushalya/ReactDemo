@@ -13,6 +13,8 @@ import Calendar from './Header';
 import Profile from './Profile';
 import Favorite from './favorite';
 import ReadFav from './ReadFav';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -41,13 +43,62 @@ class SiderDemo extends React.Component {
     this.setState({
       visible: true
     });
-    console.log("huha"+this.state.visible);
   };
 
   onClose = () => {
     this.setState({
       visible: false
     });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+        const user = {
+            user_id : localStorage.getItem("id"),
+            password: values.password || undefined,
+            salary: values.newpassword || undefined
+        }
+        axios.post('http://localhost:5000/change', user)
+        .then(res => {
+            console.log("res", res.data);
+            if(res.data){
+              swal("Yeah!","Update Password Successfully!!!","success");
+              this.setState({
+                visible: false
+              });
+            }
+            else{
+              swal("Opps!","Update Password Unsuccessfull!!!","error");
+            }
+        }).catch(e => console.log("eeeeeeeeeeee",e));
+        console.log("user", user);  
+      }
+    });
+  };  
+
+  handleConfirmBlur = e => {
+    const { value } = e.target;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue("newpassword")) {
+      callback("Two passwords that you enter is inconsistent!");
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(["confirm"], { force: true });
+    }
+    callback();
   };
 
   render() {
@@ -170,29 +221,68 @@ class SiderDemo extends React.Component {
           visible={visible}
           >
           <Form layout="vertical" hideRequiredMark>
-            <Row gutter={16}>
-                <Form.Item label="Current Password">
-                  {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please enter current password' }],
-                  })(<Input placeholder="Please enter current password" />)}
-                </Form.Item>
-              
-            </Row>
-            <Row gutter={16}>
-            <Form.Item label="New Password">
-                  {getFieldDecorator('new', {
-                    rules: [{ required: true, message: 'Please enter new password' }],
-                  })(<Input placeholder="Please enter new password" />)}
-                </Form.Item>
-            </Row>
-            <Row gutter={16}>
-            <Form.Item label="Confirm Password">
-                  {getFieldDecorator('confirm', {
-                    rules: [{ required: true, message: 'Please enter again new password' }],
-                  })(<Input placeholder="Please enter again new password" />)}
-                </Form.Item>
-            </Row>
             
+            <Row gutter={16}>
+              <Form.Item hasFeedback>
+                {getFieldDecorator("password", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your current password!"
+                    },
+                    {
+                      validator: this.validateToNextPassword
+                    }
+                  ]
+                })(<Input.Password 
+                  id= '1'
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Current Password"
+                  />)}
+              </Form.Item>
+            </Row>
+
+            <Row gutter={16}>
+              <Form.Item hasFeedback>
+                {getFieldDecorator("newpassword", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your new password!"
+                    },
+                    {
+                      validator: this.validateToNextPassword
+                    }
+                  ]
+                })(<Input.Password 
+                  id= '2'
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="New Password"
+                  />)}
+              </Form.Item>
+            </Row>
+
+            <Row gutter={16}>
+            
+              <Form.Item hasFeedback>
+                {getFieldDecorator("confirm", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please confirm your new password!"
+                    },
+                    {
+                      validator: this.compareToFirstPassword
+                    }
+                  ]
+                })(<Input.Password 
+                  id= '3'
+                  onBlur={this.handleConfirmBlur}
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Confirm Password"
+                />)}
+              </Form.Item>
+            </Row>
           </Form>
           <div
             style={{
@@ -209,7 +299,7 @@ class SiderDemo extends React.Component {
             <Button onClick={this.onClose} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={this.onClose} type="primary">
+            <Button onClick={this.onSubmit} type="primary">
               Submit
             </Button>
           </div>
