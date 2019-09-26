@@ -22,10 +22,13 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        var passwordHash = require('password-hash');
+        var hashedPassword = passwordHash.generate(values.password);
+        console.log(hashedPassword);
         const user = {
             name: values.name || undefined,
             email: values.email || undefined,
-            password: values.password || undefined,
+            password: hashedPassword || undefined,
             salary: values.salary || undefined,
             contact: values.contact || undefined
         }
@@ -35,7 +38,6 @@ class RegistrationForm extends React.Component {
             swal("OMG!","User created successfully!!!","success");
             this.props.history.push('/');
         }).catch(e => console.log("eeeeeeeeeeee",e));
-          
       }
     });
   };

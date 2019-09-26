@@ -13,8 +13,16 @@
     margin: 16px;
   }
   .scrollable-container-dash {
-    height: 350px;
+    height: 440px;
     overflow-y: scroll;
+  }
+  .scrollable-container-pop {
+    height: 150px;
+    overflow-y: scroll;
+  }
+  .background-pop {
+    padding-top: 0px;
+    height: 100px;
   }
   .scrollable-container-update {
     height: 340px;
@@ -25,7 +33,11 @@
     overflow-y: scroll;
   }
   .scrollable-container-readfav {
-    height: 330px;
+    height: 450px;
+    overflow-y: scroll;
+  }
+  .scrollable-container-pdf {
+    height: 435px;
     overflow-y: scroll;
   }
   .background {
@@ -39,4 +51,8 @@
     margin-right: 8px;
     margin-bottom: 8px;
   }
+  /* .pdf {
+    font-family: sans-serif;
+    text-align: center;
+  } */
   

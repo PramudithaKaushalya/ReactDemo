@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 const loginStyle = {
     width: "100%",
     maxWidth: "1300px",
-    margin: "30px auto",
+    margin: "0px auto",
     border: "5px solid #ddd",
     borderRadius: "3px",
     padding: "0px"
@@ -17,6 +17,9 @@ const loginStyle = {
 class Dashboard extends Component {
     
     componentWillMount(){
+        this.setState({
+            data : []
+        })
         axios.get('http://localhost:5000/all')
         .then(res => {
             console.log("res", res.data);
@@ -36,7 +39,6 @@ class Dashboard extends Component {
         user_name : undefined,
         visible : false,
 
-        id : undefined,
         name: undefined,
         salary: undefined,
         contact: undefined,
@@ -78,6 +80,18 @@ class Dashboard extends Component {
                 user_name : res.data[0].user_name
             })
             console.log(this.state.user_name);
+        }).catch(e => {
+            const data = this.state.data;
+            for(let i=0; i<data.length;i++){
+                if(this.state.data[i].user_id === id){
+                    let user = this.state.data[i].name;
+                    this.setState({
+                        favorites : [],
+                        user_name : user
+                    })
+                    swal("Oops!",  user+" hasn't any favorites!!!", "warning" );
+                }
+            }
         })
     }
 
@@ -107,6 +121,7 @@ class Dashboard extends Component {
                     }).catch(e=>{
                         console.log("error", e);
                         swal("Oops!","User not updated!!!","error");
+                        this.onClose();
                     })
                 }
                 console.log("state", user);
@@ -129,8 +144,9 @@ class Dashboard extends Component {
                 axios.get('http://localhost:5000/delete/'+id)
                 .then(res => {
                     swal("Yeah!",res.data,"success"); 
+                    this.props.history.push('/dashboard'); 
                 }).catch( err => {
-                    swal("Oops!","User does not exist!!!","error");
+                    swal("Oops!","Something Went Wrong!!!","error");
                 })
             }
         })
@@ -176,7 +192,10 @@ class Dashboard extends Component {
        
         const text = <h6>{user_name}'s Favorites</h6>;
         const content = (
-            favorites.map(item => (
+            
+            <div className="scrollable-container-pop">
+            <div className="background-pop">
+            {favorites.map(item => (
                 <React.Fragment key={item.id}>                        
                    <div style={{maxWidth: "600px"}}>
                         <Descriptions >
@@ -190,12 +209,15 @@ class Dashboard extends Component {
                         <hr/>
                     </div>
                 </React.Fragment>
-            ))
+            ))}
+            </div>
+            </div>
         );      
 
         return (
             <div style={loginStyle} className="white card z-depth-0 card-content center">
-                <div>
+                <div style={{ backgroundColor: 'gray'}}>
+                    <br/>
                     <AutoComplete
                     value={value}
                     dataSource={dataSource}
@@ -211,8 +233,9 @@ class Dashboard extends Component {
                 <Table striped bordered hover >
                     <thead>
                        <tr>
-                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td><h6>Id</h6></td>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td><h6>Name</h6></td>
                             <td><h6>Email</h6></td>
                             <td><h6>Contact</h6></td>
@@ -223,8 +246,9 @@ class Dashboard extends Component {
                     <tbody>
                         {us && value!==''? 
                         <tr>
-                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td> {filter.user_id} </td>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td> {filter.name} </td>
                             <td> {filter.email} </td>
                             <td> {filter.contact} </td>
@@ -246,8 +270,9 @@ class Dashboard extends Component {
                         :   data.map(item => (
                             <React.Fragment key={item.user_id}>                        
                                 <tr>
-                                    <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
+                                    <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                                     <td> {item.user_id} </td>
+                                    <td> &nbsp;&nbsp;&nbsp;&nbsp; </td>
                                     <td> {item.name} </td>
                                     <td> {item.email} </td>
                                     <td> {item.contact} </td>
@@ -367,6 +392,7 @@ class Dashboard extends Component {
         </Drawer>
         </div>
                 </div>
+              
             </div>
         )
     }

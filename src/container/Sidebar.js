@@ -13,19 +13,18 @@ import Calendar from './Header';
 import Profile from './Profile';
 import Favorite from './favorite';
 import ReadFav from './ReadFav';
+import Pdf from './Pdfs';
 import axios from 'axios';
 import swal from 'sweetalert';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-
 class SiderDemo extends React.Component {
   
   state = {
     collapsed: false,
     redirectToReferrer: false,
-    color: '#00a2ae',
     visible: false
   };
 
@@ -51,33 +50,46 @@ class SiderDemo extends React.Component {
     });
   };
 
-  onSubmit = (e) => {
+  changePassword = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
-        const user = {
-            user_id : localStorage.getItem("id"),
-            password: values.password || undefined,
-            salary: values.newpassword || undefined
-        }
-        axios.post('http://localhost:5000/change', user)
+
+        var passwordHash = require('password-hash');
+        var hashedPassword = passwordHash.generate(values.newpassword);
+        const user_id = localStorage.getItem("id");
+
+        axios.get('http://localhost:5000/change/'+user_id)
         .then(res => {
-            console.log("res", res.data);
-            if(res.data){
-              swal("Yeah!","Update Password Successfully!!!","success");
-              this.setState({
-                visible: false
-              });
+            if(passwordHash.verify(values.password, res.data.password)){
+              const user = {
+                user_id : user_id || undefined,
+                password: hashedPassword || undefined
+              }
+              axios.post('http://localhost:5000/changepassword',user)
+              .then(res => {
+                if(res.data){
+                  swal("Yeah!","Password Updated !!!","success");
+                  this.setState({
+                    visible: false
+                  });
+                }
+                else{
+                  swal("Oops!","Something Went Wrong!!!","error"); 
+                }
+              }).catch(e => console.log("eeeeeeeeeeee",e))
             }
             else{
-              swal("Opps!","Update Password Unsuccessfull!!!","error");
+              swal("Oops!","Invalid Current Password !!!","warning");
             }
-        }).catch(e => console.log("eeeeeeeeeeee",e));
-        console.log("user", user);  
+        }).catch(e => {
+            console.log("eeeeeeeeeeee",e)
+            swal("Oops!","Something Went Wrong!!!","error");          
+          });
       }
     });
-  };  
+  }
 
   handleConfirmBlur = e => {
     const { value } = e.target;
@@ -133,18 +145,28 @@ class SiderDemo extends React.Component {
             <Menu.Item key="1">
               <Link to='/dashboard'/>
               <Icon type="read" />
-              <span>Read</span>
+              <span>User Details</span>
+            </Menu.Item>
+            <Menu.Item key="7">
+              <Link to='/pdf'/>
+              <Icon type="download" />
+              <span>Download Details</span>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to='/update'/>
-              <Icon type="edit" />
-              <span>Update</span>
+                <Link to='/favorite'/>
+                <Icon type="heart" />
+                <span>Add Favorite</span>
             </Menu.Item>
             <Menu.Item key="3">
-              <Link to='/delete'/>
-              <Icon type="delete" />
-              <span>Delete</span>
+                <Link to='/read'/>
+                <Icon type="hourglass" />
+                <span>View Favorites</span>
             </Menu.Item>
+            <Menu.Item key="6">
+                <Link to='/calendar'/>
+                <Icon type="calendar" />
+                <span>Calendar</span>
+              </Menu.Item>
             <SubMenu
               key="sub1"
               title={
@@ -155,32 +177,27 @@ class SiderDemo extends React.Component {
               }
             >
               <Menu.Item key="4">
-                <Link to='/favorite'/>
-                <Icon type="heart" />
-                <span>Add Favorite</span>
+                <Link to='/update'/>
+                <Icon type="edit" />
+                <span>Update</span>
               </Menu.Item>
               <Menu.Item key="5">
-                <Link to='/read'/>
-                <Icon type="hourglass" />
-                <span>View Favorites</span>
-              </Menu.Item>
-              <Menu.Item key="6">
-                <Link to='/calendar'/>
-                <Icon type="calendar" />
-                <span>Calendar</span>
+                <Link to='/delete'/>
+                <Icon type="delete" />
+                <span>Delete</span>
               </Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
         <Layout>
           <Header style={{ background: 'gray', padding: 0 }} >
-            <nav className="nav-wrapper black darken-3">
+            <nav className="nav-wrapper grey darken-2">
             <div>
             <h5 className="brand-logo center">React | Spring-Boot | MySQL</h5>
             </div>
             <ul className="right">
               <li>
-              <Avatar style={{ backgroundColor: this.state.color, verticalAlign: 'middle' }} size="large">
+              <Avatar style={{ backgroundColor: '#000080', verticalAlign: 'middle' }} size="large">
                 {user}
               </Avatar>
               </li>
@@ -208,9 +225,10 @@ class SiderDemo extends React.Component {
                 <Route path='/update' component={Update} />
                 <Route path='/favorite' component={Favorite} />
                 <Route path='/read' component={ReadFav} />
+                <Route path='/pdf' component={Pdf} />
                 <Route exact path='/' component={Dashboard} />
-                <Route exact path='/dashboard' component={Dashboard} />
-                <Route exact path='/calendar' component={Calendar} />
+                <Route path='/dashboard' component={Dashboard} />
+                <Route path='/calendar' component={Calendar} />
               </Switch>
             </div>
             <div>
@@ -299,7 +317,7 @@ class SiderDemo extends React.Component {
             <Button onClick={this.onClose} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={this.onSubmit} type="primary">
+            <Button onClick={this.changePassword} type="primary">
               Submit
             </Button>
           </div>

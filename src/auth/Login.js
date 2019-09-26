@@ -13,27 +13,24 @@ class NormalLoginForm extends React.Component {
     redirectToReferrer: true
   }
 
-  handleSubmit = e => {
+  handleLogin = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       const user = {
-        name: values.username || undefined,
-        password: values.password || undefined
+        name: values.username || undefined
       }
       if (!err) {
         console.log('Received values of form: ', user);
-        if(user.name === undefined || user.password === undefined){
-          swal("Ohh!","All fields are required!!!", "warning");
-          window.location.reload();
-        }
-        else{
-        axios.post('http://localhost:5000/signin', user)
+        axios.post('http://localhost:5000/login', user)
         .then(res => {
           console.log("res", res.data)
-          if(res.data !== 0){
+          
+          var passwordHash = require('password-hash');
+          
+          if(passwordHash.verify(values.password, res.data.password)){
             swal("Yeah!","User logging successfully!!!","success");
+            localStorage.setItem("id", res.data.user_id);
             localStorage.setItem("user", user.name);
-            localStorage.setItem("id", res.data);
             this.setState({redirectToReferrer: true});
           }else{
             swal("Oops!","Invalid password!!!","error");
@@ -43,8 +40,6 @@ class NormalLoginForm extends React.Component {
           swal("Oops!","User doesn't exist!!!","error");
           window.location.reload();
         });
-          
-        }
       }
     });
   };
@@ -119,7 +114,7 @@ class NormalLoginForm extends React.Component {
             initialValue: false,
           })(<Checkbox>Remember me</Checkbox>)}
           <Link className="login-form-forgot" to='/signup'>Forgot Password</Link>
-          <Button onClick={this.handleSubmit} type="primary" htmlType="submit" className="login-form-button">
+          <Button onClick={this.handleLogin} type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button><br/>
           Or <Link to='/register'>Register Now!!!</Link>

@@ -61,7 +61,7 @@ class Delete extends Component {
         }else{
             swal("Ohh!","Id Number is empty!!!","warning");
         }
-        //this.props.history.push('/dashboard'); 
+        this.props.history.push('/dashboard'); 
     }
 
     render() {

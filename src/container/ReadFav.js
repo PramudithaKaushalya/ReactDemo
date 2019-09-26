@@ -9,15 +9,24 @@ const loginStyle = {
     width: "100%",
     heigt: "550",
     maxWidth: "1300px",
-    margin: "30px auto",
+    margin: "0px auto",
     border: "5px solid #ddd",
     borderRadius: "3px",
-    padding: "10px"
+    padding: "0px"
 }
 
 export default class Dashboard extends Component {
     
+    componentWillMount(){
+        this.setState({
+            data : []
+        })
+    }
+
     componentDidMount(){
+        this.setState({
+            data : []
+        })
         axios.get('http://localhost:5000/favo')
         .then(res => {
             console.log("res", res.data);
@@ -58,6 +67,9 @@ export default class Dashboard extends Component {
                 axios.get('http://localhost:5000/deletefavo/'+id)
                 .then(res => {
                     swal("Yeah!",res.data,"success"); 
+                    //window.location.reload();
+                    this.props.history.push('/read'); 
+
                 }).catch( err => {
                     swal("Oops!","Something went wrong!!!","error");
                 })
