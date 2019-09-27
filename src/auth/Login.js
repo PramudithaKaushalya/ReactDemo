@@ -4,13 +4,13 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Form, Icon, Input, Button, Checkbox, Card } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Card, Row, Col } from 'antd';
 import Sidebar from '../container/Sidebar';
 
 class NormalLoginForm extends React.Component {
   
   state = {
-    redirectToReferrer: true
+    redirectToReferrer: false
   }
 
   handleLogin = e => {
@@ -78,50 +78,52 @@ class NormalLoginForm extends React.Component {
 
     return (
       <div style={{ background: '#ECECEC', padding: '150px', height: '760px' }}>
-      <div style={{float: 'left', paddingLeft: '25px'}}>
-        <img height= '500px' alt="example" src="https://vitamin-resource.com/wp-content/uploads/2012/05/computer-users.jpg" />
-      </div>
-      <div style={{float: 'right', paddingRight: '30px'}}>
-      <Card title="Login Here" bordered={false} style={{ width: 400, height: '500px'}}>
+        <Row gutter={0}>
+          <Col span={14}>
+          <img height= '500px' alt="example" src="https://vitamin-resource.com/wp-content/uploads/2012/05/computer-users.jpg" />
+          </Col> 
+          <Col span={10}>
+          <Card title="Login Here" bordered={false} style={{ width: 400, height: '500px'}}>
         
-      <Form  {...formItemLayout} className="login-form">
-        <br/>
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input.Password
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <br/>
-        <Form.Item {...tailFormItemLayout}>
-        {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: false,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <Link className="login-form-forgot" to='/signup'>Forgot Password</Link>
-          <Button onClick={this.handleLogin} type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button><br/>
-          Or <Link to='/register'>Register Now!!!</Link>
-        </Form.Item>
-      </Form>
-      </Card>
-  </div>
+        <Form  {...formItemLayout} className="login-form">
+          <br/>
+          <Form.Item>
+            {getFieldDecorator('username', {
+              rules: [{ required: true, message: 'Please input your username!' }],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Username"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Please input your Password!' }],
+            })(
+              <Input.Password
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Password"
+              />,
+            )}
+          </Form.Item>
+          <br/>
+          <Form.Item {...tailFormItemLayout}>
+          {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: false,
+            })(<Checkbox className='box'>Remember me</Checkbox>)}
+            <Link className="login-form-forgot" to='/signup'>Forgot Password</Link>
+            <Button onClick={this.handleLogin} type="primary" htmlType="submit" className="login-form-button">
+              Log in
+            </Button><br/>
+            Or <Link to='/register'>Register Now!!!</Link>
+          </Form.Item>
+        </Form>
+        </Card>
+          </Col> 
+        </Row>
   </div>
     );
   }
